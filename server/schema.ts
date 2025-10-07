@@ -22,6 +22,7 @@ export const articles = pgTable("articles", {
     .notNull()
     .references(() => users.user_id, { onDelete: "cascade" }),
   title: text("title").notNull(),
+  description: text("description").notNull(),
   content: text("content").notNull(),
   category: text("category").notNull(),
 });

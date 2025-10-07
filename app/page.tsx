@@ -1,6 +1,6 @@
 import PageHeader from "@/components/page-header";
 import { cn } from "@/lib/utils";
-import { getPosts } from "@/server/actions";
+import { getArticles } from "@/server/actions";
 import { Loader2Icon } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -23,25 +23,31 @@ export default function HomePage() {
 }
 
 async function Posts() {
-  const data = await getPosts();
+  const data = await getArticles();
 
   return (
     <div className="w-full grid grid-cols-1 sm:grid-cols-2">
       {data.map((article, index) => (
-        <Link href={`/article/${article.id}`} className="w-full aspect-video">
+        <Link
+          href={`/articles/${article.id}`}
+          className="w-full aspect-video"
+          key={article.id}
+          prefetch={true}
+        >
           <div
             className={cn(
               "w-full h-full px-5 py-2.5 border-b hover:bg-input/50 flex flex-col justify-between",
               (index + 1) % 2 !== 0 && "border-r"
             )}
-            key={article.id}
           >
-            <div>
+            <div className="space-y-2.5">
               <p className="text-3xl font-semibold">{article.title}</p>
-              <p></p>
+              <p className="text-sm text-muted-foreground">
+                {article.description}
+              </p>
             </div>
             <div className="w-full flex justify-end">
-              <p className="text-sm text-muted-foreground">
+              <p className="text-xs text-muted-foreground">
                 {new Intl.DateTimeFormat("en-US", {
                   month: "long",
                   day: "numeric",

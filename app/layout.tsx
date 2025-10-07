@@ -6,7 +6,7 @@ import MaxWidthWrapper from "@/components/max-width-wrapper";
 import Link from "next/link";
 import { NAV_LINKS } from "@/constants";
 import { ClerkProvider } from "@clerk/nextjs";
-import AuthClient from "@/components/auth-client";
+import { NavAuthClient } from "@/components/auth-client";
 import { Suspense } from "react";
 import { Loader2Icon } from "lucide-react";
 
@@ -42,25 +42,33 @@ export default function RootLayout({
                   "text-5xl font-semibold",
                   dancingScript.className
                 )}
+                prefetch={true}
               >
                 Amos
               </Link>
               <Suspense
                 fallback={<Loader2Icon className="animate-spin" size={20} />}
               >
-                <AuthClient />
+                <NavAuthClient />
               </Suspense>
             </MaxWidthWrapper>
           </header>
           <MaxWidthWrapper className="min-h-[calc(100vh-80px)] flex border-x">
             <div className="w-1/4 border-r">
               {NAV_LINKS.map((link) => (
-                <Link href={link.href} key={link.id}>
+                <Link href={link.href} key={link.id} prefetch={true}>
                   <div className="w-full px-5 border-b h-14 flex justify-start items-center hover:bg-input/50">
                     <p>{link.label}</p>
                   </div>
                 </Link>
               ))}
+              <Suspense
+                fallback={
+                  <div className="w-full h-20 grid place-items-center">
+                    <Loader2Icon size={20} className="animate-spin" />
+                  </div>
+                }
+              ></Suspense>
             </div>
             <div className="w-3/4">{children}</div>
           </MaxWidthWrapper>
