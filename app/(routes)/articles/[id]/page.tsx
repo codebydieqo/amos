@@ -7,9 +7,10 @@ export default async function Article({
 }) {
   const { id } = await params;
 
+
   return (
     <div>
-      <PageHeader title={id} />
+      <PageHeader title={} />
     </div>
   );
 }
